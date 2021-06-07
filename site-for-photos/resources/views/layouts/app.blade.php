@@ -35,11 +35,15 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                        
+                    
+               
+                        @guest
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/') }}">{{ __('Начало') }}</a>
+                            <a class="nav-link" href="{{ url('/home') }}">{{ __('Начало') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Снимки') }}</a>
+                            <a class="nav-link" href="{{ route('photo.index') }}">{{ __('Снимки') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">{{ __('Потребители') }}</a>
@@ -47,6 +51,23 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">{{ __('Контакти') }}</a>
                         </li>
+                    @else
+                           
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/home') }}">{{ __('Начало') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('photo.index') }}">{{ __('Снимки') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login') }}">{{ __('Потребители') }}</a>
+                    </li>
+                    @can('user')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login') }}">{{ __('Контакти') }}</a>
+                    </li>
+                    @endcan
+                    @endguest
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -76,7 +97,7 @@
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Изход') }}
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}">
+                                    <a class="dropdown-item" href="{{ route('photo.create') }}">
                                      {{ __('Качване на снимка') }}
                                     </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}">
@@ -95,15 +116,7 @@
         </nav>
 
 
-        <div class="jumbotron">
-            <h1 class="display-4">Hello, world!</h1>
-            <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-            <hr class="my-4">
-            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-            <p class="lead">
-              <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-            </p>
-          </div>
+    
 
         <main class="py-4">
             @yield('content')

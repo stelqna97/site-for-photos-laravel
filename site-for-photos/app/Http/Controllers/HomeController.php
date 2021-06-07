@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Photo;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $users=User::latest()->take(5)->get();
+        $photos=Photo::latest()->take(5)->get();
+        $photos_10=Photo::latest()->take(10)->get();
+        return view('home',compact('users','photos','photos_10'));
     }
 }

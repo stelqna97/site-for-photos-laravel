@@ -56,4 +56,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function hasRole($role){
+        if($this->role()->where('name',$role)->first()){
+            return true;
+        }
+        return false;
+    }
 }
