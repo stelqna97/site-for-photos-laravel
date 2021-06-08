@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use App\Models\Photo;
+use App\Models\User;
+use Auth;
 
 class CommentController extends Controller
 {
@@ -35,7 +38,16 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $comment=new Comment();
+        $comment->title=$request->input('title');
+        $comment->comment=$request->input('comment');
+        $comment->user_id = $request->input('user_id');
+        $comment->photo_id = $request->input('photo_id');
+        $comment->created_at =new \DateTime();
+        $comment->updated_at=new \DateTime();
+         $comment->save();
+
+         return redirect()->back();
     }
 
     /**
@@ -55,9 +67,9 @@ class CommentController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function edit(Comment $comment)
+    public function edit(Comment $comment,$id)
     {
-        //
+       
     }
 
     /**
@@ -67,9 +79,21 @@ class CommentController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comment $comment)
+    public function update(Request $request, Comment $comment,$id)
     {
-        //
+        
+        $comment= Comment::findOrFail($id);
+        //$comment=Comment::where('photo_id',$id)->where('user_id',Auth::user()->id)->first();
+
+        //$user=User::select('id')->where('id',$comment->user_id)->first();
+        //$photoo=Photo::select('id')->where('id',$comment->photo_id)->first();
+        $comment->title=$request->input('title');
+        $comment->comment=$request->input('comment');
+        $comment->user_id = $request->input('user_id');
+        $comment->photo_id = $request->input('photo_id');
+        $comment->updated_at=new \DateTime();
+        $comment->save();
+        return redirect()->back();
     }
 
     /**
@@ -78,8 +102,11 @@ class CommentController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment)
+    public function destroy(Comment $comment,$id)
     {
-        //
+        $comment= Comment::where('id',$id)->first();
+        $comment->delete();
+
+        return redirect()->back();
     }
 }

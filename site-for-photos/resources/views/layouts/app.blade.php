@@ -46,10 +46,10 @@
                             <a class="nav-link" href="{{ route('photo.index') }}">{{ __('Снимки') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Потребители') }}</a>
+                            <a class="nav-link" href="{{ route('user.index') }}">{{ __('Потребители') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Контакти') }}</a>
+                            <a class="nav-link" href="{{ route('contact.create') }}">{{ __('Контакти') }}</a>
                         </li>
                     @else
                            
@@ -60,11 +60,11 @@
                         <a class="nav-link" href="{{ route('photo.index') }}">{{ __('Снимки') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Потребители') }}</a>
+                        <a class="nav-link" href="{{ route('user.index') }}">{{ __('Потребители') }}</a>
                     </li>
                     @can('user')
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Контакти') }}</a>
+                        <a class="nav-link" href="{{ route('contact.create') }}">{{ __('Контакти') }}</a>
                     </li>
                     @endcan
                     @endguest
@@ -100,7 +100,7 @@
                                     <a class="dropdown-item" href="{{ route('photo.create') }}">
                                      {{ __('Качване на снимка') }}
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}">
+                                    <a class="dropdown-item" href="{{ route('user.show',Auth::user()->id) }}">
                                      {{ __('Промяна на профила') }}
                                      </a>
 

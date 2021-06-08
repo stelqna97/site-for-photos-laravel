@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Mail;
 
 class ContactController extends Controller
 {
@@ -24,7 +25,8 @@ class ContactController extends Controller
      */
     public function create()
     {
-        //
+  
+        return view('contact.create');
     }
 
     /**
@@ -35,7 +37,23 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $contact=new Contact();
+        $contact->name=$request->input('name');
+        $contact->email=$request->input('email');
+        $contact->msg = $request->input('msg');
+        $contact->created_at =new \DateTime();
+        $contact->updated_at=new \DateTime();
+         $contact->save();
+
+         Mail::send('contact.email', array(
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'msg' => $request->get('msg'),
+        ), function($message) use ($request){
+            $message->from($request->email);
+            $message->to('stelqna_kisiova@abv.bg')->subject('');
+        });
+        return redirect('/');
     }
 
     /**
@@ -55,9 +73,9 @@ class ContactController extends Controller
      * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function edit(Contact $contact)
+    public function edit(Contact $contact,$id)
     {
-        //
+       
     }
 
     /**

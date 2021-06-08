@@ -3,10 +3,12 @@
 @section('content')
 
 <div class="container">
-    <h3 class="d-flex justify-content-center" style="padding: 10px;font-weight: bold;">Всички снимки</h3>
+    <h3 class="d-flex justify-content-center" style="padding: 10px;font-weight: bold;">Всички снимки на потребителя ({{$user->email}})</h3>
+
     @if($photos->count()>0)
+
 @foreach ($photos->chunk(5) as $chunk)
- 
+
   <div class="card-deck" style="padding: 10px">
 
     @foreach ($chunk as $photo)
@@ -18,7 +20,6 @@
         
         <img src="{{URL::to($photo->image)}}" alt="" class="card-img-top embed-responsive-item" >
         <div class="card-body">
-        <h5 class="card-title">Добавена от: {{$photo->user->name}} ({{$photo->user->email}})</h5>
         <p class="card-text">{{$photo->description}}</p>
         <p class="card-text"><small class="text-muted">Добавена на: {{$photo->created_at}}</small></p>
         @if (isset(Auth::user()->id) && Auth::user()->id==$photo->user_id)
@@ -33,9 +34,7 @@
   </div>   
       
 @endforeach  
-<div class="d-flex align-items-end flex-column mt-auto p-2" style=""> 
-{{$photos->links()}}
-</div>
+
   @else
   <div class="alert alert-primary d-flex justify-content-center" role="alert">
     Няма добавени снимки!

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Photo;
 use Illuminate\Http\Request;
+use App\Models\Comment;
 use Auth;
 
 
@@ -16,7 +17,7 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        $photos=Photo::orderBy('created_at','DESC')->paginate(10);;
+        $photos=Photo::orderBy('created_at','DESC')->paginate(10);
         return view('photo.index',compact('photos'));
     }
 
@@ -56,7 +57,7 @@ class PhotoController extends Controller
          $success=$image->move($upload_path,$image_full_name);
          $photo->image=$image_url;
          $photo->save();
-        return redirect('/')->with('message','Your photo has been added!');
+        return view('photo.show',compact('photo'));
     }
 
     /**
@@ -68,7 +69,16 @@ class PhotoController extends Controller
     public function show(Photo $photo,$id)
     {
         $photo=Photo::where('id',$id)->first();
-        return view('photo.show',compact('photo'));
+        $comments=Comment::where('photo_id',$id)->get();
+        $user=Auth::user()->id;
+        $comm_user=Comment::where('user_id',$user)->where('photo_id',$id)->get();
+      
+        $com_user=Comment::where([
+            'user_id'=>auth()->user()->id,
+            'photo_id' => $id,
+        ])->first();
+        //$com_user=Comment::where('user_id',Auth::user()->id)->where('photo_id',$id)->first();
+        return view('photo.show',compact('photo','comments'))->with('comm_user',$comm_user)->with('com_user',$com_user);
     }
 
     /**
